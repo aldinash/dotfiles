@@ -1,0 +1,36 @@
+add_newline = true
+command_timeout = 800
+
+format = "$directory$git_branch$git_status$python$rust$nodejs$java$cmd_duration$line_break$character"
+
+[character]
+success_symbol = "[>](bold green)"
+error_symbol = "[x](bold red)"
+vimcmd_symbol = "[<](bold green)"
+
+[directory]
+truncation_length = 4
+truncate_to_repo = false
+read_only = " ro"
+format = "[$path]($style)[$read_only]($read_only_style) "
+
+[git_branch]
+symbol = "git:"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+format = "([$all_status$ahead_behind]($style) )"
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style) "
+
+[hostname]
+ssh_only = true
+format = "[$hostname]($style) "
+
+[aws]
+disabled = true
+
+[package]
+disabled = true

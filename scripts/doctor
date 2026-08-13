@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$REPO_ROOT"
+failures=0
+
+run_check() {
+  printf '==> %s\n' "$1"
+  shift
+  if ! "$@"; then
+    failures=$((failures + 1))
+  fi
+}
+
+run_check "Bash syntax" bash -n \
+  setup.sh scripts/macos-defaults scripts/audit-secrets scripts/doctor \
+  dot_profile dot_bash_profile dot_bashrc \
+  dot_config/dotfiles/shell/common.sh \
+  dot_config/dotfiles/shell/path.sh \
+  dot_config/dotfiles/shell/aliases.sh \
+  dot_config/dotfiles/shell/functions.sh \
+  dot_config/dotfiles/shell/bash.sh \
+  dot_local/bin/executable_dotfiles-doctor
+
+run_check "Zsh syntax" zsh -n dot_zshrc dot_zshenv dot_config/dotfiles/shell/zsh.zsh
+run_check "Secret audit" scripts/audit-secrets
+
+if command -v shellcheck >/dev/null 2>&1; then
+  run_check "ShellCheck" shellcheck \
+    setup.sh scripts/macos-defaults scripts/audit-secrets scripts/doctor \
+    dot_profile dot_bashrc dot_config/dotfiles/shell/*.sh \
+    dot_local/bin/executable_dotfiles-doctor
+else
+  printf '==> ShellCheck skipped: not installed\n'
+fi
+
+check_chezmoi() {
+  chezmoi --source "$REPO_ROOT" data >/dev/null
+  chezmoi --source "$REPO_ROOT" managed >/dev/null
+}
+
+if command -v chezmoi >/dev/null 2>&1; then
+  run_check "Chezmoi source" check_chezmoi
+else
+  printf '==> Chezmoi skipped: not installed\n'
+fi
+
+if [[ -x /Applications/Ghostty.app/Contents/MacOS/ghostty ]]; then
+  run_check "Ghostty config" /Applications/Ghostty.app/Contents/MacOS/ghostty \
+    +validate-config --config-file="$REPO_ROOT/dot_config/ghostty/config"
+fi
+
+if ((failures > 0)); then
+  printf '%d check(s) failed.\n' "$failures" >&2
+  exit 1
+fi
+
+printf 'All repository checks passed.\n'

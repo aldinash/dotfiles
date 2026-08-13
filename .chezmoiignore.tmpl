@@ -1,0 +1,24 @@
+.git/
+.gitignore
+.chezmoi.toml.tmpl
+README.md
+Brewfile
+setup.sh
+packages/
+scripts/
+
+# Ignored remnants from the pre-Chezmoi experiment.
+archive/
+bin/
+fish/
+zsh/
+git/
+ghostty/
+tmux/
+cli/
+vscode/
+examples/
+
+{{ if ne .chezmoi.os "darwin" -}}
+.config/ghostty/
+{{ end -}}

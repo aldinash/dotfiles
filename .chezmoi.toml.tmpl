@@ -1,0 +1,7 @@
+sourceDir = "{{ .chezmoi.sourceDir }}"
+
+[diff]
+    scriptContents = true
+
+[data]
+    machine = "{{ if eq .chezmoi.os "darwin" }}workstation{{ else }}remote{{ end }}"

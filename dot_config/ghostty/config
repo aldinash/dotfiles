@@ -1,0 +1,4 @@
+font-family = "Lilex Nerd Font"
+font-size = 14
+# `cursor` here controls Ghostty's terminal caret, not the Cursor editor.
+shell-integration-features = cursor,no-sudo,title,ssh-env,ssh-terminfo,path

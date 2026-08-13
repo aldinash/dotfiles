@@ -1,0 +1,20 @@
+enter_accept = false
+secrets_filter = true
+filter_mode = "global"
+filter_mode_shell_up_key_binding = "workspace"
+search_mode = "fuzzy"
+search_mode_shell_up_key_binding = "fuzzy"
+workspaces = true
+
+history_filter = [
+  "(?i)(token|secret|password|passwd|api[_-]?key|private[_-]?key)=",
+  "(?i)authorization: *bearer ",
+  "(?i)bearer [a-z0-9._~+/=-]{20,}",
+  "AKIA[0-9A-Z]{16}",
+  "ASIA[0-9A-Z]{16}",
+  "ghp_[A-Za-z0-9_]{20,}",
+  "github_pat_[A-Za-z0-9_]{20,}",
+  "xox[baprs]-[A-Za-z0-9-]{20,}",
+  "sk_(live|test)_[A-Za-z0-9]{20,}",
+  "-----BEGIN (OPENSSH|RSA|EC|DSA|PRIVATE) KEY-----",
+]

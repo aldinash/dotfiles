@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+set -u
+
+failures=0
+
+check_command() {
+  if command -v "$2" >/dev/null 2>&1; then
+    printf '[ok]      %-18s %s\n' "$1" "$(command -v "$2")"
+  else
+    printf '[missing] %-18s %s\n' "$1" "$2"
+    failures=$((failures + 1))
+  fi
+}
+
+printf 'OS:        %s\n' "$(uname -srm)"
+printf 'Shell:     %s\n' "${SHELL:-unknown}"
+printf 'TERM:      %s\n' "${TERM:-unknown}"
+printf 'COLORTERM: %s\n' "${COLORTERM:-unset}"
+
+if [[ "${TERM:-dumb}" == "dumb" ]]; then
+  printf '[missing] %-18s %s\n' "interactive TERM" "${TERM:-unset}"
+  failures=$((failures + 1))
+elif command -v infocmp >/dev/null 2>&1 && infocmp "$TERM" >/dev/null 2>&1; then
+  printf '[ok]      %-18s %s\n' "terminfo" "$TERM"
+else
+  printf '[missing] %-18s %s\n' "terminfo" "${TERM:-unset}"
+  failures=$((failures + 1))
+fi
+
+if command -v tput >/dev/null 2>&1; then
+  printf '[info]    %-18s %s\n' "terminal colors" "$(tput colors 2>/dev/null || printf unknown)"
+fi
+
+check_command zsh zsh
+check_command git git
+check_command tmux tmux
+check_command starship starship
+check_command atuin atuin
+check_command ripgrep rg
+check_command fzf fzf
+
+if command -v fd >/dev/null 2>&1; then
+  check_command fd fd
+elif command -v fdfind >/dev/null 2>&1; then
+  check_command fd fdfind
+else
+  printf '[missing] %-18s %s\n' "fd" "fd or fdfind"
+  failures=$((failures + 1))
+fi
+
+if ((failures > 0)); then
+  printf '\n%d check(s) need attention.\n' "$failures"
+  exit 1
+fi
+
+printf '\nTerminal environment is ready.\n'
