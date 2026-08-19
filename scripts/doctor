@@ -46,6 +46,14 @@ else
   printf '==> Chezmoi skipped: not installed\n'
 fi
 
+if command -v nvim >/dev/null 2>&1; then
+  run_check "Neovim Lua syntax" nvim --headless --clean -u NONE -i NONE \
+    -c "lua assert(vim.version.ge(vim.version(), { 0, 11, 0 }), 'Neovim 0.11+ is required'); assert(loadfile([[$REPO_ROOT/dot_config/nvim/init.lua]])); assert(loadfile([[$REPO_ROOT/dot_config/nvim/lua/lazy_setup.lua]]))" \
+    -c qa
+else
+  printf '==> Neovim skipped: not installed\n'
+fi
+
 if [[ -x /Applications/Ghostty.app/Contents/MacOS/ghostty ]]; then
   run_check "Ghostty config" /Applications/Ghostty.app/Contents/MacOS/ghostty \
     +validate-config --config-file="$REPO_ROOT/dot_config/ghostty/config"

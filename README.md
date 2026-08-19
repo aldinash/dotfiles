@@ -11,11 +11,12 @@ directory according to the current operating system.
 - Git defaults with a machine-local identity file
 - tmux configuration shared by macOS and Linux
 - Ghostty configuration on macOS only
+- AstroNvim v6 configuration shared by macOS and Linux
 - Homebrew packages and applications for a Mac workstation
 
-There is deliberately no Neovim or VS Code configuration. VS Code may be
-installed by the Brewfile, but its settings, extensions, login, and sync state
-remain outside this repository.
+There is deliberately no VS Code configuration. VS Code may be installed by
+the Brewfile, but its settings, extensions, login, and sync state remain
+outside this repository.
 
 ## macOS workstation
 
@@ -36,6 +37,11 @@ chezmoi --source ~/.dotfiles diff
 
 The package pass installs Homebrew when necessary, applies `Brewfile`, and
 installs Chezmoi.
+
+AstroNvim v6 requires Neovim 0.11 or newer. The first `nvim` launch installs the
+full distribution and plugins through `lazy.nvim`. The repository tracks the
+user configuration and `lazy-lock.json`; downloaded plugins, Mason tools,
+caches, and editor state stay machine-local.
 
 macOS preferences are separate and opt-in:
 
@@ -138,3 +144,9 @@ chezmoi --source ~/.dotfiles apply
 
 Edit `Brewfile` for Mac packages and `packages/ubuntu.txt` for Ubuntu packages.
 Keep credentials and host-specific data in the two local files above.
+
+After updating AstroNvim plugins, capture the resulting lockfile with:
+
+```sh
+chezmoi --source ~/.dotfiles re-add ~/.config/nvim/lazy-lock.json
+```

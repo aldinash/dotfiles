@@ -1,15 +1,3 @@
 .DS_Store
 *.local
 local/
-
-# Legacy files from the pre-Chezmoi experiment.
-/.config/
-/archive/
-/fish/
-/zsh/
-/git/
-/ghostty/
-/tmux/
-/cli/
-/vscode/
-/examples/
