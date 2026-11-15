@@ -3,16 +3,11 @@
 [core]
     autocrlf = input
     safecrlf = warn
-    excludesFile = {{ .chezmoi.homeDir }}/.config/git/ignore
-{{- if lookPath "delta" }}
-    pager = delta
-[interactive]
-    diffFilter = delta --color-only
+    excludesFile = ~/.config/git/ignore
 [delta]
     navigate = true
     side-by-side = true
     line-numbers = true
-{{- end }}
 [color]
     ui = auto
 [pull]

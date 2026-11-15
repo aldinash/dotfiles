@@ -20,6 +20,7 @@ path_prepend "$HOME/.local/bin"
 path_prepend "$HOME/bin"
 path_prepend "$HOME/.cargo/bin"
 path_prepend "$HOME/.atuin/bin"
+path_prepend "${GOPATH:-$HOME/go}/bin"
 
 if [ -n "${PNPM_HOME:-}" ]; then
   path_prepend "$PNPM_HOME"

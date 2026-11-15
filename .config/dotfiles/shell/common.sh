@@ -10,15 +10,16 @@ export DOTFILES_CONFIG_HOME
 # shellcheck source=/dev/null
 [ -f "$DOTFILES_CONFIG_HOME/shell/functions.sh" ] && . "$DOTFILES_CONFIG_HOME/shell/functions.sh"
 
-if command -v nvim >/dev/null 2>&1; then
-  export EDITOR="${EDITOR:-nvim}"
-else
-  export EDITOR="${EDITOR:-vim}"
-fi
+export EDITOR="${EDITOR:-vim}"
 export VISUAL="${VISUAL:-$EDITOR}"
 export GIT_EDITOR="${GIT_EDITOR:-$EDITOR}"
 export PAGER="${PAGER:-less}"
 export LESS="${LESS:--FRX}"
+
+# git diffs through delta, on machines that have it (settings in ~/.gitconfig)
+if command -v delta >/dev/null 2>&1; then
+  export GIT_PAGER=delta
+fi
 
 # Machine-only aliases, credentials, and work environment variables live here.
 # shellcheck source=/dev/null

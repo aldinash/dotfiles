@@ -1,7 +1,7 @@
 enter_accept = false
 secrets_filter = true
 filter_mode = "global"
-filter_mode_shell_up_key_binding = "workspace"
+filter_mode_shell_up_key_binding = "global"
 search_mode = "fuzzy"
 search_mode_shell_up_key_binding = "fuzzy"
 workspaces = true

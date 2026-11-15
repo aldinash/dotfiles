@@ -1,0 +1,12 @@
+font-family = "Lilex Nerd Font"
+font-size = 14
+# `cursor` here controls Ghostty's terminal caret, not the Cursor editor.
+shell-integration-features = cursor,no-sudo,title,ssh-env,ssh-terminfo,path
+
+# Keyboard scrolling (vim-style)
+keybind = cmd+j=scroll_page_lines:3
+keybind = cmd+k=scroll_page_lines:-3
+keybind = cmd+d=scroll_page_fractional:0.5
+keybind = cmd+u=scroll_page_fractional:-0.5
+keybind = cmd+g=scroll_to_top
+keybind = cmd+shift+g=scroll_to_bottom

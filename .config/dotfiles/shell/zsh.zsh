@@ -1,5 +1,12 @@
 [[ $- == *i* ]] || return 0
 
+# Ghostty's integration auto-loads only in shells Ghostty spawns directly.
+# Source it here so `exec zsh`, tmux, and plain zsh also get the ssh/sudo
+# wrappers. It self-guards against double-init.
+if [[ -n "${GHOSTTY_RESOURCES_DIR:-}" ]]; then
+  source "$GHOSTTY_RESOURCES_DIR/shell-integration/zsh/ghostty-integration"
+fi
+
 setopt HIST_IGNORE_DUPS HIST_IGNORE_SPACE SHARE_HISTORY
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=50000
