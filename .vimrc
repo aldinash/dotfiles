@@ -20,9 +20,6 @@ set showmatch
 set hlsearch incsearch
 set ignorecase smartcase
 set background=dark
-" Built-in theme; others to try with :colorscheme <name>:
-" retrobox, sorbet, wildcharm, zaibatsu, slate, desert
-silent! colorscheme habamax
 set mouse=a
 set ruler
 if has('clipboard')
@@ -55,6 +52,10 @@ inoremap <expr> <CR>    pumvisible() && complete_info(['selected']).selected != 
 
 " ---------------------------------------------------------------------------
 " Plugins: native packages under ~/.vim/pack
+
+set termguicolors
+packadd! catppuccin
+colorscheme catppuccin_frappe
 
 " Indentation etc. from the project's .editorconfig, when it has one
 packadd! editorconfig
