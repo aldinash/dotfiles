@@ -3,12 +3,19 @@
 # Files already there are moved to ~/.dotfiles-backup/<time>/ first.
 # Safe to re-run.
 set -eu
+install_skills=false
+case "${1:-}" in
+  --skills) install_skills=true; shift ;;
+  "") ;;
+  *) echo "Usage: $0 [--skills]" >&2; exit 2 ;;
+esac
+[ "$#" -eq 0 ] || { echo "Usage: $0 [--skills]" >&2; exit 2; }
 repo=$(cd "$(dirname "$0")" && pwd)
 backup="$HOME/.dotfiles-backup/$(date +%Y%m%d-%H%M%S)"
 cd "$repo"
 git submodule update --init --quiet
 
-git ls-files | grep -vxE 'install\.sh|README\.md|Brewfile|\.gitignore|\.gitmodules' |
+git ls-files | grep -vxE 'install\.sh|install-skills\.sh|README\.md|Brewfile|\.gitignore|\.gitmodules' |
 while IFS= read -r f; do
   src="$repo/$f" dst="$HOME/$f"
   [ "$(readlink "$dst" 2>/dev/null || true)" = "$src" ] && continue
@@ -21,3 +28,7 @@ while IFS= read -r f; do
   ln -s "$src" "$dst"
   echo "linked    ~/$f"
 done
+
+if "$install_skills"; then
+  "$repo/install-skills.sh"
+fi
